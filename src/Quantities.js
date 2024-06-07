@@ -1,6 +1,7 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FormContext } from './FormContext';
+import Modal from './ExitModal';
 
 const Quantities = () => {
     const { quantityData, setQuantityData } = useContext(FormContext); // Current form data and update current form data
@@ -14,18 +15,43 @@ const Quantities = () => {
     const [minQuantity, setMinQuantity] = useState(quantityData.minQuantity);
     const [maxQuantity, setMaxQuantity] = useState(quantityData.maxQuantity);
     const [errors, setErrors] = useState({});
+    const [showModal, setShowModal] = useState(false);
+
+    // Show modal
+    const exitWithoutSaving = () => {
+        setShowModal(true);
+    };
+
+    const closeModal = () => {
+        setShowModal(false);
+    };
+
+    // Add styles to body when modal is open/closed
+    useEffect(() => {
+        if (showModal) {
+            document.body.style.height = '100%';
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.height = '';
+            document.body.style.overflow = '';
+        }
+        return () => {
+            document.body.style.height = '';
+            document.body.style.overflow = '';
+        };
+    }, [showModal]);
 
     const navigate = useNavigate();
 
     // Form validation
     const validateForm = () => {
         const newErrors = {};
-        if (limitedPlacesOption === 'yes') {
+        if (limitedPlacesOption === 'Limited') {
             if (!numberOfPlaces) {
                 newErrors.numberOfPlaces = 'Number of places is required';
             }
         }
-        if (itemQuantityOption === 'yes') {
+        if (itemQuantityOption === 'Unlimited') {
             if (!itemQuantity || !minQuantity || !maxQuantity) {
                 newErrors.itemQuantity = 'Fill out all quantity fields';
             }
@@ -43,11 +69,11 @@ const Quantities = () => {
             setQuantityData({
                 ...quantityData,
                 limitedPlaces: limitedPlacesOption,
-                numberOfPlaces: limitedPlacesOption === 'yes' ? numberOfPlaces : '',
+                numberOfPlaces: limitedPlacesOption === 'Limited' ? numberOfPlaces : '',
                 itemQuantityOption: itemQuantityOption,
-                itemQuantity: itemQuantityOption === 'yes' ? itemQuantity : '',
-                minQuantity: itemQuantityOption === 'yes' ? minQuantity : '',
-                maxQuantity: itemQuantityOption === 'yes' ? maxQuantity : '',
+                itemQuantity: itemQuantityOption === 'Unlimited' ? itemQuantity : '',
+                minQuantity: itemQuantityOption === 'Unlimited' ? minQuantity : '',
+                maxQuantity: itemQuantityOption === 'Unlimited' ? maxQuantity : '',
                 itemSetupOption: itemSetupOption,
             });
             navigate('/costs');
@@ -60,7 +86,7 @@ const Quantities = () => {
                 <div className="card-body">
                     <h5 className="card-title">Quantities</h5>
                     <div className="text-start col-3">
-                        <label className="form-label bold">How is this payment item to be used?</label>
+                        <label className="form-label bold">Purchase availability</label>
                         <div className="form-checks">
                             <div className="form-check">
                                 <input
@@ -82,49 +108,49 @@ const Quantities = () => {
                                     checked={itemSetupOption === 'Repeating'}
                                     onChange={(e) => setItemSetupOption(e.target.value)}
                                 />
-                                <label className="form-check-label" htmlFor="itemSetupOption">Repeating</label>
+                                <label className="form-check-label" htmlFor="itemSetupOption">Repeatable</label>
                             </div>
                         </div>
                     </div>
                     {itemSetupOption === 'Only once' && (
                         <small className="text-muted text-start">
-                            <p className="mb-3">For example, a single or one off payment for a disco</p>
+                            <p className="mb-3">Once purchased, the item will be removed from the payers purchase list</p>
                         </small>
                     )}
                     {itemSetupOption === 'Repeating' && (
                         <small className="text-muted text-start">
-                            <p className="mb-3">For example, school meal/breakfast or after club, or an item that can purchased multiple times</p>
+                            <p className="mb-3">Can be purchased until stock runs out</p>
                         </small>
                     )}
 
                     <div className="mb-3 text-start">
-                        <label className="form-label bold">Are there a limited number of places available?</label>
+                        <label className="form-label bold">Stock</label>
                         <div className="form-checks col-3">
                             <div className="form-check">
                                 <input
                                     className="form-check-input"
                                     type="radio"
                                     name="limitedPlaces"
-                                    value="yes"
-                                    checked={limitedPlacesOption === 'yes'}
+                                    value="Unlimited"
+                                    checked={limitedPlacesOption === 'Unlimited'}
                                     onChange={(e) => setLimitedPlacesOption(e.target.value)}
                                 />
-                                <label className="form-check-label me-3" htmlFor="limitedPlaces">Yes</label>
+                                <label className="form-check-label me-3" htmlFor="limitedPlaces">Unlimited</label>
                             </div>
                             <div className="form-check">
                                 <input
                                     className="form-check-input"
                                     type="radio"
                                     name="limitedPlaces"
-                                    value="no"
-                                    checked={limitedPlacesOption === 'no'}
+                                    value="Limited"
+                                    checked={limitedPlacesOption === 'Limited'}
                                     onChange={(e) => setLimitedPlacesOption(e.target.value)}
                                 />
-                                <label className="form-check-label" htmlFor="limitedPlaces">No</label>
+                                <label className="form-check-label" htmlFor="limitedPlaces">Limited</label>
                             </div>
                         </div>
                     </div>
-                    {limitedPlacesOption === 'yes' && (
+                    {limitedPlacesOption === 'Limited' && (
                         <div className="mb-3 text-start col-3">
                             <label htmlFor="numberOfPlaces" className="form-label">Number of places available</label>
                             <input
@@ -139,33 +165,33 @@ const Quantities = () => {
                     )}
 
                     <div className="mb-3 text-start">
-                        <label className="form-label bold">Can parents/carers purchase more than one of this item?</label>
+                        <label className="form-label bold">Purchase quantity</label>
                         <div className="form-checks col-3">
                             <div className="form-check">
                                 <input
                                     className="form-check-input"
                                     type="radio"
                                     name="itemQuantityOption"
-                                    value="yes"
-                                    checked={itemQuantityOption === 'yes'}
+                                    value="Unlimited"
+                                    checked={itemQuantityOption === 'Unlimited'}
                                     onChange={(e) => setItemQuantityOption(e.target.value)}
                                 />
-                                <label className="form-check-label me-3" htmlFor="itemQuantityOption">Yes</label>
+                                <label className="form-check-label me-3" htmlFor="itemQuantityOption">Unlimited</label>
                             </div>
                             <div className="form-check">
                                 <input
                                     className="form-check-input"
                                     type="radio"
                                     name="itemQuantityOption"
-                                    value="no"
-                                    checked={itemQuantityOption === 'no'}
+                                    value="Limited"
+                                    checked={itemQuantityOption === 'Limited'}
                                     onChange={(e) => setItemQuantityOption(e.target.value)}
                                 />
-                                <label className="form-check-label" htmlFor="itemQuantityOption">No</label>
+                                <label className="form-check-label" htmlFor="itemQuantityOption">Limited</label>
                             </div>
                         </div>
                     </div>
-                    {itemQuantityOption === 'yes' && (
+                    {itemQuantityOption === 'Unlimited' && (
                         <div className="row mb-3 text-start">
                             <div className="col-2">
                                 <label htmlFor="itemQuantity" className="form-label">Default quantity</label>
@@ -213,9 +239,12 @@ const Quantities = () => {
                     </button>
                 </div>
                 <div className="text-end">
-                    <button className="btn btn-light mt-2 me-2">Close without saving</button>
+                    <button type="button" className="btn btn-light mt-2 me-2" onClick={exitWithoutSaving}>
+                        Cancel
+                    </button>
                     <button type="submit" className="btn btn-primary mt-2">Continue to Costs</button>
                 </div>
+                {showModal && <Modal onClose={closeModal} />}
             </div>
         </form>
     );

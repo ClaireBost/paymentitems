@@ -26,9 +26,9 @@ export const FormProvider = ({ children }) => {
 });
 
 const [quantityData, setQuantityData] = useState({
-    limitedPlaces: 'no',
+    limitedPlaces: 'Unlimited',
     numberOfPlaces: '',
-    itemQuantityOption: 'no',
+    itemQuantityOption: 'Unlimited',
     itemQuantity: '',
     minQuantity: '',
     maxQuantity: '',

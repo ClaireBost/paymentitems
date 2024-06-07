@@ -17,22 +17,23 @@ import { FormProvider } from './FormContext';
 function App() {
   return (
     <FormProvider>
-    <Router>
-    <div className="App">
-      <Header></Header>
-      <Banner></Banner>
-      <Navigation></Navigation>
-      <Wizard></Wizard>
-      <Routes>
-      <Route path="/details" element={<Details />} />
-      <Route path="/quantities" element={<Quantities />} />
-      <Route path="/costs" element={<Costs />} />
-      <Route path="/people" element={<People />} />
-      <Route path="/summary" element={<Summary />} />
-        </Routes>
-      <Footer></Footer>
-    </div>
-    </Router>
+      <Router basename="/paymentitems">
+        <div className="App">
+          <Header />
+          <Banner />
+          <Navigation />
+          <Wizard />
+          <Routes>
+            <Route path="/details" element={<Details />} />
+            <Route path="/quantities" element={<Quantities />} />
+            <Route path="/costs" element={<Costs />} />
+            <Route path="/people" element={<People />} />
+            <Route path="/summary" element={<Summary />} />
+            <Route path="/" element={<Details />} /> {/* Default route */}
+          </Routes>
+          <Footer />
+        </div>
+      </Router>
     </FormProvider>
   );
 }

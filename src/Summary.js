@@ -1,11 +1,37 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { FormContext } from './FormContext';
 import { Link, useNavigate } from "react-router-dom";
+import Modal from './ExitModal';
 
 const Summary = () => {
     const { formData, costsData, quantityData } = useContext(FormContext); // Get all form data
     let navigate = useNavigate();
     const [isPublished, setIsPublished] = useState(false); // Not yet published
+    const [showModal, setShowModal] = useState(false);
+
+  // Show modal
+  const exitWithoutSaving = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  // Add styles to body when modal is open/closed
+  useEffect(() => {
+    if (showModal) {
+      document.body.style.height = '100%';
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.height = '';
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.height = '';
+      document.body.style.overflow = '';
+    };
+  }, [showModal]);
 
     // Once published hide the buttons, show banner and scroll to top of page
     const handlePublish = () => {
@@ -43,12 +69,12 @@ const Summary = () => {
                 <div className="card-body">
                     <h5 className="card-title">Quantites</h5>
                     <div class="text-start">
-                        <p><span class="bold">Item type:</span> {quantityData.itemSetupOption}</p>
-                        <p><span class="bold">Limited places:</span> {quantityData.limitedPlaces}</p>
-                        {quantityData.limitedPlaces === 'yes' && <p>
+                        <p><span class="bold">Stock:</span> {quantityData.itemSetupOption}</p>
+                        <p><span class="bold">Purchase quantity:</span> {quantityData.limitedPlaces}</p>
+                        {quantityData.limitedPlaces === 'Limited' && <p>
                             <span class="bold">Number of places:</span> {quantityData.numberOfPlaces}</p>}
-                        <p><span class="bold">Can purchase more than 1 of this payment item:</span> {quantityData.itemQuantityOption}</p>
-                        {quantityData.itemQuantityOption === 'yes' && <><p>
+                        <p><span class="bold">Purchase availability:</span> {quantityData.itemQuantityOption}</p>
+                        {quantityData.itemQuantityOption === 'Unlimited' && <><p>
                             <span class="bold">Default amount:</span> {quantityData.itemQuantity}</p>
                             <p>
                                 <span class="bold">Minimum amount:</span> {quantityData.minQuantity}</p>
@@ -68,7 +94,7 @@ const Summary = () => {
                     <h5 className="card-title">Costs</h5>
 
                     <div class="text-start">
-                        <p><span class="bold">Payment type:</span> {costsData.costOption}</p>
+                        <p><span class="bold">Price:</span> {costsData.costOption}</p>
                         {costsData.costOption === 'Variable amount' && (
                             <>
                                 <p><span class="bold">Default amount:</span> {costsData.defaultAmount}</p>
@@ -81,14 +107,14 @@ const Summary = () => {
                                 <p><span class="bold">Amount:</span> £{costsData.fixedAmount}</p>
                             </>
                         )}
-                        <p><span class="bold">Is there a due date:</span> {costsData.dueDateOption}</p>
+                        <p><span class="bold">Due date:</span> {costsData.dueDateOption}</p>
                         {costsData.dueDateOption === 'yes' && (
                             <>
                                 <p><span class="bold">Due date selected:</span> {costsData.dueDate}</p>
                             </>
                         )}
                         <p><span class="bold">Bank account selected:</span> {costsData.bankAccount}</p>
-                        <p><span class="bold">Any accounting codes:</span> {costsData.addAccountingCodes}</p>
+                        <p><span class="bold">Accounting codes:</span> {costsData.addAccountingCodes}</p>
                         {!isPublished && (
                             <Link to="/costs">
                                 <button className="btn btn-primary mt-2">Edit costs</button>
@@ -103,9 +129,12 @@ const Summary = () => {
                         <button className="btn btn-link mt-2" onClick={() => navigate(-1)}>Back</button>
                     </div>
                     <div className="text-end">
-                    <button className="btn btn-light mt-2 me-2">Exit without saving</button>
+                        <button type="button" className="btn btn-light mt-2 me-2" onClick={exitWithoutSaving}>
+                            Cancel
+                        </button>
                         <button type="button" className="btn btn-primary mt-2" onClick={handlePublish}>Publish</button>
                     </div>
+                    {showModal && <Modal onClose={closeModal} />}
                 </div>
             )}
         </>

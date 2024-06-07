@@ -1,6 +1,7 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FormContext } from './FormContext';
+import Modal from './ExitModal';
 
 const Costs = () => {
     const { costsData, setCostsData } = useContext(FormContext); // Current form data and update current form data
@@ -31,6 +32,31 @@ const Costs = () => {
     const [maximumAmount, setMaximumAmount] = useState(costsData.maximumAmount);
     const [dueDate, setDueDate] = useState(costsData.dueDate);
     const [errors, setErrors] = useState({});
+    const [showModal, setShowModal] = useState(false);
+
+    // Show modal
+    const exitWithoutSaving = () => {
+        setShowModal(true);
+    };
+
+    const closeModal = () => {
+        setShowModal(false);
+    };
+
+    // Add styles to body when modal is open/closed
+    useEffect(() => {
+        if (showModal) {
+            document.body.style.height = '100%';
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.height = '';
+            document.body.style.overflow = '';
+        }
+        return () => {
+            document.body.style.height = '';
+            document.body.style.overflow = '';
+        };
+    }, [showModal]);
 
     const navigate = useNavigate();
 
@@ -109,7 +135,7 @@ const Costs = () => {
                     <h5 className="card-title">Costs</h5>
 
                     <div className="mb-3 text-start">
-                        <label className="form-label bold">Select how you want the payment item to be paid for</label>
+                        <label className="form-label bold">Price</label>
                         <div className="form-checks col-3">
                             <div className="form-check">
                                 <input
@@ -120,7 +146,7 @@ const Costs = () => {
                                     checked={costOption === 'Fixed amount'}
                                     onChange={(e) => setcostOption(e.target.value)}
                                 />
-                                <label className="form-check-label me-3" htmlFor="fixedamount">Fixed amount</label>
+                                <label className="form-check-label me-3" htmlFor="fixedamount">Fixed</label>
                             </div>
                             <div className="form-check">
                                 <input
@@ -131,7 +157,7 @@ const Costs = () => {
                                     checked={costOption === 'Variable amount'}
                                     onChange={(e) => setcostOption(e.target.value)}
                                 />
-                                <label className="form-check-label" htmlFor="variable">Variable amount</label>
+                                <label className="form-check-label" htmlFor="variable">Variable</label>
                             </div>
                         </div>
                     </div>
@@ -198,9 +224,9 @@ const Costs = () => {
                     )}
 
                     <div className="mb-3 text-start">
-                        <label className="form-label bold mb-0">Is there a due date in which you want payments should be made?</label>
+                        <label className="form-label bold mb-0">Due date</label>
                         <small className="text-muted">
-                            <p>A due date for payment will be shown to parents/carers (this will not prevent parents making payments after this date).</p>
+                            <p class="mb-2">Payments can be made after this date</p>
                         </small>
                         <div className="form-checks col-3">
                             <div className="form-check">
@@ -242,7 +268,7 @@ const Costs = () => {
                     )}
 
                     <div className="mb-3 text-start">
-                        <label htmlFor="bankAccount" className="form-label bold">Which bank account would you like the trip funds to go to?</label>
+                        <label htmlFor="bankAccount" className="form-label bold">Bank account</label>
                         <div class="col-3">
                             <select className="form-select col-3" id="bankAccount" value={bankAccount} onChange={handleBankAccountChange}>
                                 <option value="">Select...</option>
@@ -371,12 +397,20 @@ const Costs = () => {
 
             <div className="trips-buttons">
                 <div className="text-start">
-                    <button className="btn btn-link mt-2" onClick={() => navigate(-1)}>Back</button>
+                    <button
+                        className="btn btn-link mt-2"
+                        type="button"
+                        onClick={() => navigate(-1)} >
+                        Back
+                    </button>
                 </div>
                 <div className="text-end">
-                    <button className="btn btn-light mt-2 me-2">Exit without saving</button>
+                    <button type="button" className="btn btn-light mt-2 me-2" onClick={exitWithoutSaving}>
+                        Cancel
+                    </button>
                     <button type="submit" className="btn btn-primary mt-2">Continue to People</button>
                 </div>
+                {showModal && <Modal onClose={closeModal} />}
             </div>
         </form>
     );
