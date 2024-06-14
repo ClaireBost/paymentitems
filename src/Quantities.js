@@ -51,7 +51,7 @@ const Quantities = () => {
                 newErrors.numberOfPlaces = 'Number of places is required';
             }
         }
-        if (itemQuantityOption === 'Unlimited') {
+        if (itemQuantityOption === 'Limited') {
             if (!itemQuantity || !minQuantity || !maxQuantity) {
                 newErrors.itemQuantity = 'Fill out all quantity fields';
             }
@@ -71,9 +71,9 @@ const Quantities = () => {
                 limitedPlaces: limitedPlacesOption,
                 numberOfPlaces: limitedPlacesOption === 'Limited' ? numberOfPlaces : '',
                 itemQuantityOption: itemQuantityOption,
-                itemQuantity: itemQuantityOption === 'Unlimited' ? itemQuantity : '',
-                minQuantity: itemQuantityOption === 'Unlimited' ? minQuantity : '',
-                maxQuantity: itemQuantityOption === 'Unlimited' ? maxQuantity : '',
+                itemQuantity: itemQuantityOption === 'Limited' ? itemQuantity : '',
+                minQuantity: itemQuantityOption === 'Limited' ? minQuantity : '',
+                maxQuantity: itemQuantityOption === 'Limited' ? maxQuantity : '',
                 itemSetupOption: itemSetupOption,
             });
             navigate('/costs');
@@ -85,9 +85,9 @@ const Quantities = () => {
             <div className="card">
                 <div className="card-body">
                     <h5 className="card-title">Quantities</h5>
-                    <div className="text-start col-3">
-                        <label className="form-label bold">Purchase availability</label>
-                        <div className="form-checks">
+                    <div className="text-start col-3 mb-3">
+                        <label className="form-label bold mb-1">Item availability</label>
+                        <p>After the item is purchased, should it:</p>
                             <div className="form-check">
                                 <input
                                     className="form-check-input"
@@ -97,7 +97,7 @@ const Quantities = () => {
                                     checked={itemSetupOption === 'Only once'}
                                     onChange={(e) => setItemSetupOption(e.target.value)}
                                 />
-                                <label className="form-check-label me-3" htmlFor="itemSetupOption">Only once</label>
+                                <label className="form-check-label me-3" htmlFor="itemSetupOption">Be removed after payment</label>
                             </div>
                             <div className="form-check">
                                 <input
@@ -108,24 +108,14 @@ const Quantities = () => {
                                     checked={itemSetupOption === 'Repeating'}
                                     onChange={(e) => setItemSetupOption(e.target.value)}
                                 />
-                                <label className="form-check-label" htmlFor="itemSetupOption">Repeatable</label>
+                                <label className="form-check-label" htmlFor="itemSetupOption">Be available to buy again</label>
                             </div>
-                        </div>
                     </div>
-                    {itemSetupOption === 'Only once' && (
-                        <small className="text-muted text-start">
-                            <p className="mb-3">Once purchased, the item will be removed from the payers purchase list</p>
-                        </small>
-                    )}
-                    {itemSetupOption === 'Repeating' && (
-                        <small className="text-muted text-start">
-                            <p className="mb-3">Can be purchased until stock runs out</p>
-                        </small>
-                    )}
 
                     <div className="mb-3 text-start">
-                        <label className="form-label bold">Stock</label>
-                        <div className="form-checks col-3">
+                        <label className="form-label bold mb-1">Inventory</label>
+                        <p>How many are available to sell?</p>
+                        <div className="col-3">
                             <div className="form-check">
                                 <input
                                     className="form-check-input"
@@ -146,7 +136,7 @@ const Quantities = () => {
                                     checked={limitedPlacesOption === 'Limited'}
                                     onChange={(e) => setLimitedPlacesOption(e.target.value)}
                                 />
-                                <label className="form-check-label" htmlFor="limitedPlaces">Limited</label>
+                                <label className="form-check-label" htmlFor="limitedPlaces">Set inventory</label>
                             </div>
                         </div>
                     </div>
@@ -165,8 +155,9 @@ const Quantities = () => {
                     )}
 
                     <div className="mb-3 text-start">
-                        <label className="form-label bold">Purchase quantity</label>
-                        <div className="form-checks col-3">
+                        <label className="form-label bold mb-1">Purchase volume</label>
+                        <p>How many can be purchased per transaction?</p>
+                        <div className="col-3">
                             <div className="form-check">
                                 <input
                                     className="form-check-input"
@@ -187,11 +178,11 @@ const Quantities = () => {
                                     checked={itemQuantityOption === 'Limited'}
                                     onChange={(e) => setItemQuantityOption(e.target.value)}
                                 />
-                                <label className="form-check-label" htmlFor="itemQuantityOption">Limited</label>
+                                <label className="form-check-label" htmlFor="itemQuantityOption">Set limit</label>
                             </div>
                         </div>
                     </div>
-                    {itemQuantityOption === 'Unlimited' && (
+                    {itemQuantityOption === 'Limited' && (
                         <div className="row mb-3 text-start">
                             <div className="col-2">
                                 <label htmlFor="itemQuantity" className="form-label">Default quantity</label>

@@ -13,6 +13,7 @@ import Summary from './Summary';
 import Quantities from './Quantities';
 import './my-sass.scss';
 import { FormProvider } from './FormContext';
+import People2 from './People2';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
             <Route path="/costs" element={<Costs />} />
             <Route path="/people" element={<People />} />
             <Route path="/summary" element={<Summary />} />
+            <Route path="/people2" element={<People2 />} />
             <Route path="/" element={<Details />} /> {/* Default route */}
           </Routes>
           <Footer />

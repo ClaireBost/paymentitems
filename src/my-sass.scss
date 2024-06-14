@@ -471,8 +471,31 @@ a .btn, .btn {
     font-weight: 600;
 }
 
+.form-check-input {
+  --bs-form-check-bg: #fff;
+  border: 1px solid #b9b9b9;
+}
+
+
 // Modals
 .exitmodal {
   display: block;
   background-color: rgba(#000, 0.5); 
+
+  .modal-content {
+    background-color: #fff;
+  }
+}
+
+// Alerts
+.greyalert {
+  color: #000000;
+  background-color: #f2f2f2;
+  border-color: #d9d9d9;
+}
+
+// tables
+
+.table {
+  --bs-table-bg: #fff;
 }

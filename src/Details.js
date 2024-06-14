@@ -152,6 +152,29 @@ const Details = () => {
               </select>
             </div>
           </div>
+
+
+          <div className="mb-3 text-start">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="consent"></input>
+              <label class="form-check-label" for="consent">
+              Tick if you require parents/carers to provide consent
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="newItemAlert"></input>
+              <label class="form-check-label" for="newItemAlert">
+              Tick if you wish to enable a new item alert for your parents/carers
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="PayPoint"></input>
+              <label class="form-check-label" for="PayPoint">
+              Tick if you wish to be able to accept payments by PayPoint for this item
+              </label>
+            </div>
+          </div>
+
         </div>
       </div>
       <>

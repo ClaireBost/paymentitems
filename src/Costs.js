@@ -132,11 +132,11 @@ const Costs = () => {
         <form onSubmit={handleSubmit}>
             <div className="card">
                 <div className="card-body">
-                    <h5 className="card-title">Costs</h5>
+                    <h5 className="card-title">Price</h5>
 
                     <div className="mb-3 text-start">
                         <label className="form-label bold">Price</label>
-                        <div className="form-checks col-3">
+                        <div className="col-3">
                             <div className="form-check">
                                 <input
                                     className="form-check-input"
@@ -228,7 +228,7 @@ const Costs = () => {
                         <small className="text-muted">
                             <p class="mb-2">Payments can be made after this date</p>
                         </small>
-                        <div className="form-checks col-3">
+                        <div className="col-3">
                             <div className="form-check">
                                 <input
                                     className="form-check-input"
@@ -283,7 +283,7 @@ const Costs = () => {
                     {showAccountingCodes && (
                         <div className="mb-3 text-start">
                             <label className="form-label bold">Do you want to add accounting codes?</label>
-                            <div className="form-checks col-3">
+                            <div className="col-3">
                                 <div className="form-check">
                                     <input
                                         className="form-check-input"
