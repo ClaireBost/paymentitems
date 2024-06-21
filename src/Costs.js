@@ -135,7 +135,7 @@ const Costs = () => {
                     <h5 className="card-title">Price</h5>
 
                     <div className="mb-3 text-start">
-                        <label className="form-label bold">Price</label>
+                        <label className="form-label bold">Cost</label>
                         <div className="col-3">
                             <div className="form-check">
                                 <input
@@ -222,7 +222,7 @@ const Costs = () => {
                             {errors.defaultAmount && <div className="text-danger">{errors.defaultAmount}</div>}
                         </div>
                     )}
-
+ <hr />
                     <div className="mb-3 text-start">
                         <label className="form-label bold mb-0">Due date</label>
                         <small className="text-muted">
@@ -266,7 +266,7 @@ const Costs = () => {
                             {errors.dueDate && <div className="text-danger">{errors.dueDate}</div>}
                         </div>
                     )}
-
+ <hr />
                     <div className="mb-3 text-start">
                         <label htmlFor="bankAccount" className="form-label bold">Bank account</label>
                         <div class="col-3">

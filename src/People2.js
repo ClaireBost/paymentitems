@@ -29,6 +29,7 @@ function People2() {
         if (e.target.value === 'Global') {
             setGlobalAddPeople(true);
             setManuallyAddPeople(false);
+            setAddedPeople(false);
             setSaveGlobalButton(true); // Show the save button for global selection
         } else if (e.target.value === 'Manual') {
             setManuallyAddPeople(true);
@@ -89,7 +90,7 @@ function People2() {
                     <h5 className="card-title">Assign people</h5>
                     <div className="alert greyalert text-start" role="alert">
                         <p>
-                            <span className="bold">Automatically add the whole school:</span> This is a global function that will add the entire school to this payment item as well as any new pupils that get uploaded throughout the year.
+                            <span className="bold">Automatically add the whole school:</span> This is a global function that will add the entire school to this payment item as well as any new people that get uploaded throughout the year.
                         </p>
                         <p>
                             <span className="bold">Manually add and remove people:</span> Choose which people are added to or removed from this payment item (i.e. Pupil by year group, staff, visitors etc). Using this option will not automatically add people uploaded throughout the year to this payment item.
@@ -180,51 +181,92 @@ function People2() {
                            </div>
                        </div>
                     )}
+                                    </div>
+            </div>
 
                     {viewPeople && (
-                        <div className="mt-4">
-                            <table className="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">First name</th>
-                                        <th scope="col">Last name</th>
-                                        <th scope="col">Year</th>
-                                        <th scope="col">Reg.</th>
-                                        <th scope="col">FSM</th>
-                                        <th scope="col">Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Leona</td>
-                                        <td>Otto</td>
-                                        <td>1</td>
-                                        <td>2A</td>
-                                        <td>No</td>
-                                        <td>Add</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Mary</td>
-                                        <td>Jones</td>
-                                        <td>4</td>
-                                        <td>4A</td>
-                                        <td>No</td>
-                                        <td>Remove</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Regina</td>
-                                        <td>Hampton</td>
-                                        <td>9</td>
-                                        <td>9R</td>
-                                        <td>Yes</td>
-                                        <td>Remove</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                         <div className="card mt-3">
+                         <div className="card-body">
+                             <h5 className="card-title">Assigned people</h5>         
+                         </div>
+            
+                         <div className="d-flex flex-row-reverse me-2">
+                             <form className="col-3">
+                                 <input className="form-control" type="search" placeholder="Search people" aria-label="Search"></input>
+                             </form>
+                         </div>
+                         <div className="mt-4">
+                             <table className="table table-striped">
+                                 <thead>
+                                     <tr>
+                                         <th scope="col">Global
+                                             <div className="form-check">
+                                                 <input checked className="form-check-input float-none people-table-checkbox-add" type="checkbox" value="" id="flexCheckDefault" onChange={(e) => handleHeaderCheckboxChange(e, 'add')}></input>
+                                                 <label className="form-check-label visually-hidden" htmlFor="flexCheckDefault">
+                                                 Global
+                                                 </label>
+                                             </div>
+                                         </th>
+                                         <th scope="col">Remove
+                                             <div className="form-check">
+                                                 <input className="form-check-input float-none people-table-checkbox-remove" type="checkbox" value="" id="flexCheckChecked" onChange={(e) => handleHeaderCheckboxChange(e, 'remove')}></input>
+                                                 <label className="form-check-label visually-hidden" htmlFor="flexCheckChecked">
+                                                     Remove
+                                                 </label>
+                                             </div></th>
+                                         <th scope="col">First name</th>
+                                         <th scope="col">Last name</th>
+                                         <th scope="col">Year</th>
+                                         <th scope="col">Reg.</th>
+                                         <th scope="col">FSM</th>
+                                     </tr>
+                                 </thead>
+                                 <tbody>
+                                     <tr>
+                                         <td> <div className="form-check">
+                                             <input checked className="form-check-input float-none people-table-checkbox-add" type="checkbox" value="" id="flexCheck3" onChange={hasCheckboxChanged}></input>
+                                         </div></td>
+                                         <td> <div className="form-check">
+                                             <input className="form-check-input float-none people-table-checkbox-remove" type="checkbox" value="" id="flexCheck4" onChange={hasCheckboxChanged}></input>
+                                         </div></td>
+                                         <td>Leona</td>
+                                         <td>Otto</td>
+                                         <td>1</td>
+                                         <td>2A</td>
+                                         <td>No</td>
+                                     </tr>
+                                     <tr>
+                                         <td> <div className="form-check">
+                                             <input checked className="form-check-input float-none people-table-checkbox-add" type="checkbox" value="" id="flexCheck5" onChange={hasCheckboxChanged}></input>
+                                         </div></td>
+                                         <td> <div className="form-check">
+                                             <input className="form-check-input float-none people-table-checkbox-remove" type="checkbox" value="" id="flexCheck6" onChange={hasCheckboxChanged}></input>
+                                         </div></td>
+                                         <td>Mary</td>
+                                         <td>Jones</td>
+                                         <td>4</td>
+                                         <td>4A</td>
+                                         <td>No</td>
+                                     </tr>
+                                     <tr>
+                                         <td> <div className="form-check">
+                                             <input checked className="form-check-input float-none people-table-checkbox-add" type="checkbox" value="" id="flexCheck7" onChange={hasCheckboxChanged}></input>
+                                         </div></td>
+                                         <td> <div className="form-check">
+                                             <input className="form-check-input float-none people-table-checkbox-remove" type="checkbox" value="" id="flexCheck8" onChange={hasCheckboxChanged}></input>
+                                         </div></td>
+                                         <td>Regina</td>
+                                         <td>Hampton</td>
+                                         <td>9</td>
+                                         <td>9R</td>
+                                         <td>Yes</td>
+                                     </tr>
+                                 </tbody>
+                             </table>
+                         </div>
+                     </div>
                     )}
-                </div>
-            </div>
+
 
             {addedPeople && (
                 <div className="card mt-3">

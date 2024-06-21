@@ -112,6 +112,8 @@ const Quantities = () => {
                             </div>
                     </div>
 
+                    <hr />
+
                     <div className="mb-3 text-start">
                         <label className="form-label bold mb-1">Inventory</label>
                         <p>How many are available to sell?</p>
@@ -154,6 +156,7 @@ const Quantities = () => {
                         </div>
                     )}
 
+<hr />
                     <div className="mb-3 text-start">
                         <label className="form-label bold mb-1">Purchase volume</label>
                         <p>How many can be purchased per transaction?</p>

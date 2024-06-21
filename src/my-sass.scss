@@ -499,3 +499,41 @@ a .btn, .btn {
 .table {
   --bs-table-bg: #fff;
 }
+
+.people-table-header {
+  border-bottom: 8px #f0f0f0 solid;
+}
+
+.people-table {
+  --bs-border-width: 2px;
+  --bs-border-color: #eaeaeb;
+
+  th:first-child {
+    border-left: none;
+  }
+
+  th:last-child {
+    border-right: none;
+  }
+
+  td:first-child {
+    border-left: none;
+  }
+
+  td:last-child {
+    border-right: none;
+  }
+
+  .table-light {
+    --bs-table-bg: #f8f9fa;
+    --bs-table-border-color: #eaeaeb;
+  }
+}
+
+.add-people {
+  flex: auto;
+}
+
+.reset {
+  color: #e2e2e2 !important;
+}
